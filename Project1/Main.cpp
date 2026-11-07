@@ -11,95 +11,199 @@ int main()
 
 	while (true)
 	{
-		std::cout << "1.Дз за 24.09\n";
-		std::cout << "2.Дз за 14.10\n";
-		std::cout << "Выберите Дз: ";
+		std::cout << "1.Дз за 20.10\n";
+		//std::cout << "2.Дз за 18.10\n";
+		std::cout << "Выберите Дз(0-выход): ";
 		std::cin >> choice;
+
+		if (choice == 0)
+		{
+			break;
+		}
+
 		if (choice == 1)
 		{
 			while (true)
 			{
-				std::cout << "Выберите задание(1-3)(0-назад): ";
+				system("cls");
+				int rasstoyanie[2]{};
+				int weight = 0;
+				int rasxodMultiplier = 1;
+				int refueling = 0;
+
+				std::cout << "1) Самолёт №1\n";
+				std::cout << "Ёмкость бака - 300 литров\n";
+				std::cout << "Потребление топлива в зависимости от веса груза :\n";
+				std::cout << "-до 750 кг : 1 литров / км\n";
+				std::cout << "-до 1500 кг : 4 литров / км\n";
+				std::cout << "-до 2000 кг : 7 литров / км.\n";
+				std::cout << "-более 2000 кг – самолет не поднимает\n\n";
+
+				std::cout << "2) Самолёт №2\n";
+				std::cout << "Ёмкость бака - 1000 литров\n";
+				std::cout << "Потребление топлива в зависимости от веса груза :\n";
+				std::cout << "-до 1000 кг : 2 литров / км\n";
+				std::cout << "-до 2000 кг : 4 литров / км\n";
+				std::cout << "-до 3000 кг : 6 литров / км.\n";
+				std::cout << "-более 3000 кг – самолет не поднимает\n";
+				std::cout << "Самолёт имеет сбрасываемый временый бак ёмкостью 100 литров\n\n";
+
+				std::cout << "Выберите номер самолета(1-2)(0-назад): ";
 				std::cin >> choice;
 				if (choice == 0)
 				{
 					break;
 				}
 
-				else if (choice == 1) //Задание 1
+				if (choice == 1)
 				{
-					int number = 0;
-					std::cout << "Введите любое шестизначное число: ";
-					std::cin >> number;
-					if (number >= 100000 && number <= 999999)
+					system("cls");
+					int tankcapacy = 300;
+
+					std::cout << "Введите расстояние между пунктами А и В(км): ";
+					std::cin >> rasstoyanie[0];
+
+					std::cout << "Введите расстояние между пунктами B и C(км): ";
+					std::cin >> rasstoyanie[1];
+
+					while (true)
 					{
-						if ((number / 100000) + ((number / 10000) % 10) + ((number / 1000) % 10) == ((number % 10) + ((number % 100) / 10) + ((number % 1000) / 100)))
+						std::cout << "Введите вес груза(кг): ";
+						std::cin >> weight;
+
+						if (weight <= 750)
 						{
-							std::cout << "Ваше число - счастливое\n";
+							rasxodMultiplier = 1;
+							break;
+						}
+
+						if (weight <= 1500 && weight > 750)
+						{
+							rasxodMultiplier = 4;
+							break;
+						}
+
+						if (weight <= 2000 && weight > 1500)
+						{
+							rasxodMultiplier = 7;
+							break;
+						}
+
+						if (weight > 2000 || weight < 0)
+						{
+							std::cout << "Некорректный вес!(Вес дожен быть от 0 до 2000)\n";
+							system("pause");
+						}
+					}
+
+
+					if (rasstoyanie[0] * rasxodMultiplier > tankcapacy)
+					{
+						std::cout << "Самолет не сможет долететь до места назначения!\n";
+						system("pause");
+					}
+					
+					else if (rasstoyanie[1] * rasxodMultiplier > tankcapacy)
+					{
+						std::cout << "Самолет не сможет долететь до места назначения!\n";
+						system("pause");
+					}
+
+					else
+					{
+						if ((rasstoyanie[1] - (tankcapacy - (rasstoyanie[0] * rasxodMultiplier))) > 0)
+						{
+							refueling = (rasstoyanie[1] - (tankcapacy - (rasstoyanie[0] * rasxodMultiplier)));
+						}
+						std::cout << "Минимальное количество топлива, необходимое для дозаправки самолету в пункте В: " << refueling << "\n";
+						system("pause");
+					}
+				}
+
+				else if (choice == 2)
+				{
+					system("cls");
+					int tankcapacy = 1000;
+					int extraTank = 100;
+
+					std::cout << "Введите расстояние между пунктами А и В(км): ";
+					std::cin >> rasstoyanie[0];
+
+					std::cout << "Введите расстояние между пунктами B и C(км): ";
+					std::cin >> rasstoyanie[1];
+
+					while (true)
+					{
+						std::cout << "Введите вес груза(кг): ";
+						std::cin >> weight;
+
+						if (weight <= 1000)
+						{
+							rasxodMultiplier = 2;
+							break;
+						}
+
+						if (weight <= 2000 && weight > 1000)
+						{
+							rasxodMultiplier = 4;
+							break;
+						}
+
+						if (weight <= 3000 && weight > 2000)
+						{
+							rasxodMultiplier = 6;
+							break;
+						}
+
+						if (weight > 3000 || weight < 0)
+						{
+							std::cout << "Некорректный вес!(Вес должен быть от 0 до 3000)\n";
+							system("pause");
+						}
+					}
+
+					int fuelNeeded[2]{};
+					fuelNeeded[0] = rasstoyanie[0] * rasxodMultiplier;
+					fuelNeeded[1] = rasstoyanie[1] * rasxodMultiplier;
+
+					if (fuelNeeded[0] > (tankcapacy + extraTank))
+					{
+						std::cout << "Самолет не сможет долететь до места назначения!\n";
+						system("pause");
+					}
+
+					else if (fuelNeeded[1] > tankcapacy)
+					{
+						std::cout << "Самолет не сможет долететь до места назначения!\n";
+						system("pause");
+					}
+
+					else
+					{
+						int remainingFuel = 0;
+
+						if (fuelNeeded[0] <= extraTank)
+						{
+							remainingFuel = tankcapacy;
 						}
 						else
 						{
-							std::cout << "Ваше число - НЕ счастливое\n";
+							remainingFuel = tankcapacy - (fuelNeeded[0] - extraTank);
 						}
-					}
-					else
-					{
-						std::cout << "Ошибка, нужно ввести шестизначное число!\n";
-					}
-				}
 
-				else if (choice == 2) //Задание 2
-				{
-					int number = 0;
-					int arr1[4]{};
-					int arr2[4]{};
-
-					std::cout << "Введите любое четырёхзначное число: ";
-					std::cin >> number;
-					if (number >= 1000 && number <= 9999)
-					{
-						arr1[0] += number / 1000;
-						arr1[1] += (number / 100) % 10;
-						arr1[2] += (number / 10) % 10;
-						arr1[3] += number % 10;
-
-						arr2[0] = arr1[1];
-						arr2[1] = arr1[0];
-						arr2[2] = arr1[3];
-						arr2[3] = arr1[2];
-
-						for (size_t i = 0; i < 4; i++)
+						if (fuelNeeded[1] > remainingFuel)
 						{
-							std::cout << arr2[i];
+							refueling = fuelNeeded[1] - remainingFuel;
 						}
-						std::cout << "\n";
-					}
-					else
-					{
-						std::cout << "Ошибка, нужно ввести четырёхзначное число!\n";
-					}
-				}
 
-				else if (choice == 3) //Задание 3
-				{
-					int num = 0;
-					int maxnum = 0;
-
-					for (size_t i = 0; i < 7; i++)
-					{
-						std::cout << "Введите " << i + 1 << "-е число: ";
-						std::cin >> num;
-						if (num > maxnum)
-						{
-							maxnum = num;
-						}
+						std::cout << "Минимальное количество топлива, необходимое для дозаправки самолету в пункте В: " << refueling << "\n";
+						system("pause");
 					}
-					std::cout << "Самое большое число: " << maxnum << "\n";
 				}
 
 				else
 				{
-					std::cout << "Такого задания нет!\n";
+					std::cout << "Такого самолета нет!\n";
 				}
 			}
 		}
@@ -115,119 +219,7 @@ int main()
 					break;
 				}
 
-				else if (choice == 1) //Задание 1
-				{
-					const int size = 10;
-					int arr[size]{};
-					int MinRand = -100;
-					int MaxRand = 100;
-					int MinNum = MaxRand;
-					int MaxNum = MinRand;
-
-					for (size_t i = 0; i < size; i++)
-					{
-						arr[i] += rand() % (MaxRand - MinRand + 1) + MinRand;
-					}
-
-					for (size_t i = 0; i < size; i++)
-					{
-						if (arr[i] < MinNum)
-						{
-							MinNum = arr[i];
-						}
-
-						if (arr[i] > MaxNum)
-						{
-							MaxNum = arr[i];
-						}
-					}
-					std::cout << "Максимальное число в списке: " << MaxNum << "\n";
-					std::cout << "Минимальное число в списке: " << MinNum << "\n";
-				}
-
-				else if (choice == 2) //Задание 2
-				{
-					const int size = 10;
-					int arr[size]{};
-					int MinNumDiap = 0;
-					int MaxNumDiap = 0;
-					int NumDo = 0;
-					int summ = 0;
-
-					std::cout << "Введите диапазон(от какого числа): ";
-					std::cin >> MinNumDiap;
-
-					std::cout << "Введите диапазон(до какого числа(включительно)): ";
-					std::cin >> MaxNumDiap;
-
-					for (size_t i = 0; i < size; i++)
-					{
-						arr[i] += rand() % (MaxNumDiap - MinNumDiap + 1) + MinNumDiap;
-					}
-
-					std::cout << "Введите число, все числа меньше которого будут суммированы: ";
-					std::cin >> NumDo;
-
-					for (size_t i = 0; i < size; i++)
-					{
-						if (arr[i] < NumDo)
-						{
-							summ += arr[i];
-						}
-					}
-
-					std::cout << "Сумма: " << summ << "\n";
-				}
-
-				else if (choice == 3) //Задание 3
-				{
-					const int size = 12;
-					int arr[size]{};
-					int MinMonthDiap = 0;
-					int MaxMonthDiap = 0;
-					int MinProfit = 0;
-					int MaxProfit = 0;
-					int MinProfitMonth = 0;
-					int MaxProfitMonth = 0;
-
-					for (size_t i = 0; i < size; i++)
-					{
-						std::cout << "Введите прибыль фирмы за " << i + 1 << "-й месяц: ";
-						std::cin >> arr[i];
-					}
-
-					std::cout << "Введите диапазон(от какого месяца): ";
-					std::cin >> MinMonthDiap;
-					MinMonthDiap--;
-
-					std::cout << "Введите диапазон(до какого месяца(включительно)): ";
-					std::cin >> MaxMonthDiap;
-					MaxMonthDiap--;
-
-					MinProfit = arr[MinMonthDiap];
-					MaxProfit = arr[MaxMonthDiap];
-
-					MinProfitMonth = MinMonthDiap;
-					MaxProfitMonth = MaxMonthDiap;
-
-					for (size_t i = MinMonthDiap; i <= MaxMonthDiap; i++)
-					{
-						if (arr[i] < MinProfit)
-						{
-							MinProfit = arr[i];
-							MinProfitMonth = i;
-						}
-
-						if (arr[i] > MaxProfit)
-						{
-							MaxProfit = arr[i];
-							MaxProfitMonth = i;
-						}
-					}
-
-					std::cout << "Месяц, в котором прибыль была минимальна: " << MinProfitMonth + 1 << "\n";
-					std::cout << "Месяц, в котором прибыль была максимальна: " << MaxProfitMonth + 1 << "\n";
-				}
+				
 
 				else
 				{
