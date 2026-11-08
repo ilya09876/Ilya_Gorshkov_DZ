@@ -1,6 +1,96 @@
 #include <iostream>
 #include <windows.h>
 
+bool VisokosniCheck(int year)
+{
+	if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+int DateToDays(int year, int month, int day)
+{
+	int daysInMonths[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	int itog = 0;
+
+	itog += (year - 1) * 365;
+
+	for (size_t i = 1; i < year; i++)
+	{
+		if (VisokosniCheck(i) == true)
+		{
+			itog += 1;
+		}
+	}
+
+	for (size_t i = 0; i < month - 1; i++)
+	{
+		itog += daysInMonths[i];
+		if (i == 1 && VisokosniCheck(year) == true)
+		{
+			itog += 1;
+		}
+	}
+
+	itog += day;
+
+	return itog;
+}
+
+int RaznitsaDate(int year1, int month1, int day1, int year2, int month2, int day2)
+{
+	return DateToDays(year2, month2, day2) - DateToDays(year1, month1, day1);
+}
+
+
+double Average(double arr[], int size)
+{
+	double itog = 0;
+
+	for (size_t i = 0; i < size; i++)
+	{
+		itog += arr[i];
+	}
+
+	itog /= size;
+
+	return itog;
+}
+
+
+void Counts(double arr[], int size)
+{
+	int positive = 0;
+	int negative = 0;
+	int zero = 0;
+
+	for (size_t i = 0; i < size; i++)
+	{
+		if (arr[i] > 0)
+		{
+			positive++;
+		}
+
+		else if (arr[i] < 0)
+		{
+			negative++;
+		}
+
+		else
+		{
+			zero++;
+		}
+	}
+
+	std::cout << "Количество положительных элементов: " << positive << "\n";
+	std::cout << "Количество отрицательных элементов: " << negative << "\n";
+	std::cout << "Количество нулевых элементов: " << zero << "\n";
+}
 
 int main()
 {
@@ -11,8 +101,9 @@ int main()
 
 	while (true)
 	{
-		std::cout << "1.Дз за 20.10\n";
-		//std::cout << "2.Дз за 18.10\n";
+		system("cls");
+		std::cout << "1.Дз за 18.10\n";
+		std::cout << "2.Дз за 20.10\n";
 		std::cout << "Выберите Дз(0-выход): ";
 		std::cin >> choice;
 
@@ -21,7 +112,68 @@ int main()
 			break;
 		}
 
-		if (choice == 1)
+		else if (choice == 1)
+		{
+			while (true)
+			{
+				std::cout << "Выберите задание(1-3)(0-назад): ";
+				std::cin >> choice;
+				if (choice == 0)
+				{
+					break;
+				}
+
+				else if (choice == 1) //Задание 1
+				{
+					system("cls");
+					int year1 = 0;
+					int month1 = 0;
+					int day1 = 0;
+					int year2 = 0;
+					int month2 = 0;
+					int day2 = 0;
+
+					std::cout << "Введите год первой даты: ";
+					std::cin >> year1;
+					std::cout << "Введите месяц первой даты: ";
+					std::cin >> month1;
+					std::cout << "Введите день первой даты: ";
+					std::cin >> day1;
+					std::cout << "Введите год второй даты: ";
+					std::cin >> year2;
+					std::cout << "Введите месяц второй даты: ";
+					std::cin >> month2;
+					std::cout << "Введите день второй даты: ";
+					std::cin >> day2;
+
+					std::cout << "Разность в днях между этими датами: " << RaznitsaDate(year1, month1, day1, year2, month2, day2) << "\n";
+				}
+
+				else if (choice == 2) //Задание 2
+				{
+					system("cls");
+					const int size = 5;
+					double arr[size]{ 2, 5, 7, 32, 8 };
+
+					std::cout << "Среднее арифметическое: " << Average(arr, size) << "\n";
+				}
+
+				else if (choice == 3) //Задание 3
+				{
+					const int size = 5;
+					double arr[size]{ 5, 0, 10, -2, -99 };
+
+					Counts(arr, size);
+				}
+
+				else
+				{
+					std::cout << "Такого задания нет!\n";
+				}
+			}
+		}
+
+		else if (choice == 2)
 		{
 			while (true)
 			{
@@ -204,26 +356,6 @@ int main()
 				else
 				{
 					std::cout << "Такого самолета нет!\n";
-				}
-			}
-		}
-
-		else if (choice == 2)
-		{
-			while (true)
-			{
-				std::cout << "Выберите задание(1-3)(0-назад): ";
-				std::cin >> choice;
-				if (choice == 0)
-				{
-					break;
-				}
-
-				
-
-				else
-				{
-					std::cout << "Такого задания нет!\n";
 				}
 			}
 		}
